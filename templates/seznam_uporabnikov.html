@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div id="content">
+
+            <h1>Seznam uporabnikov</h1>
+            <p>Klikni na uporabnika in mu pošlji sporočilo</p>
+            <br>
+            <ul>
+                {% for uporabnik in seznam_uporabnikov %}
+                <li><a href="/novo?naslovnik={{uporabnik.email}}">{{uporabnik.email}}</a></li>
+                {% endfor %}
+            </ul>
+
+    </div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Javne objave | Bmail{% endblock title %}
+
+{% block content %}
+
+    <div id="content">
+        <h1>Javne objave</h1>
+        {% for objava in javne_objave %}
+        <div class="javna-objava">
+            <p>Od: <b>{{objava.sender}}</b> Ob: {{objava.nastanek}}</p>
+            <p>Sporocilo:</p>
+            <p>{{objava.vnos}}</p>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

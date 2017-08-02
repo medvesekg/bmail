@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} Novo sporočilo | Bmail {% endblock title %}
+
+{% block content %}
+<div id="content">
+		<div class="sidebar_top"></div>
+        <h1>Novo sporočilo</h1>
+             
+          <form class="form_settings" method="post">
+            <p><span>Za</span><a href="/seznam_uporabnikov">(seznam uporabnikov)</a><input class="contact" type="text" name="to" value="{{naslovnik}}" placeholder="Pustite prazno za javno objavo"/></p>
+            <p><span>Zadeva</span><input class="contact" type="text" name="subject" value="{{zadeva}}" placeholder="Obvezno" /></p>
+            <p><span>Sporocilo</span><textarea class="contact textarea" rows="8" cols="50" name="message" placeholder="Obvezno">{{sporocilo}}</textarea></p>
+            
+			<button type="submit">Poslji</button>
+		  
+		  </form>
+      </div>
+{% endblock content %}
+	  

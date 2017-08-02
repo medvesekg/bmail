@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Poslana sporočila | Bmail{% endblock title %}
+
+{% block content %}
+<div id="content">
+		<div class="sidebar_top"></div>
+        <h1>Poslana sporočila</h1>
+
+
+            <table style="width:80%">
+
+
+				<tr>
+					<th>Naslovnik</th>
+					<th>Zadeva</th>
+					<th>Datum</th>
+				</tr>
+                {% for sporocilo in poslana_sporocila%}
+				<tr class="clickable-table-row" data-id="{{sporocilo.key.id()}}">
+					<td>{{sporocilo.to}}</td>
+                    <td>{{sporocilo.subject}}</td>
+					<td>{{sporocilo.nastanek}}</td>
+				</tr>
+                {% endfor %}
+			</table>
+
+		  </div>
+      </div>
+{% endblock content %}
+
+{% block javascript%}
+
+var tableRows = document.getElementsByClassName("clickable-table-row");
+
+for (var i = 0; i < tableRows.length; i++) {
+
+	tableRows[i].onclick = function() {
+
+		window.location = "/sporocilo/" + this.dataset.id;
+	}
+}
+
+{% endblock javascript%}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Prejeta sporočila | Bmail{% endblock title %}
+
+{% block content %}
+<div id="content">
+		<div class="sidebar_top"></div>
+        <h1>Neprebrano</h1>
+
+
+            <table style="width:80%">
+
+
+				<tr>
+					<th>Posiljatelj</th>
+					<th>Zadeva</th>
+					<th>Datum</th>
+				</tr>
+				{% for sporocilo in prejeta_sporocila %}
+				<tr class="clickable-table-row" data-id="{{sporocilo.key.id()}}">
+					<td>{{sporocilo.sender}}</td>
+					<td><a href="sporocilo/{{sporocilo.key.id()}}">{{sporocilo.subject}}</a></td>
+					<td>{{sporocilo.nastanek}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+<br>
+<h1>Prebrano</h1>
+<br>
+			<table id="t01">
+
+				<tr>
+					<th>Posiljatelj</th>
+					<th>Zadeva</th>
+					<th>Datum</th>
+				</tr>
+				{% for sporocilo in prebrana_sporocila %}
+				<tr class="clickable-table-row" data-id="{{sporocilo.key.id()}}">
+					<td>{{sporocilo.sender}}</td>
+					<td>{{sporocilo.subject}}</td>
+					<td>{{sporocilo.nastanek}}</td>
+				</tr>
+				{% endfor %}
+
+			</table>
+
+		  </div>
+      </div>
+{% endblock content %}
+
+{% block javascript%}
+
+var tableRows = document.getElementsByClassName("clickable-table-row");
+
+for (var i = 0; i < tableRows.length; i++) {
+
+	tableRows[i].onclick = function() {
+
+		window.location = "/sporocilo/" + this.dataset.id;
+	}
+}
+
+{% endblock javascript%}
+	  

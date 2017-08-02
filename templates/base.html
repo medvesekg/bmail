@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock title %}</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
+</head>
+
+<body>
+  <div id="main">
+
+	<div id="logo">
+        <div id="logo_text">
+
+          <h1><a href="/home">B<span class="logo_colour">mail</span></a></h1>
+          <h2>Tudi danes pošljite sporočilo.</h2>
+        </div>
+    </div>
+
+
+
+	<div id="sidebar_container">
+    <div class="sidebar">
+        <div class="sidebar_item">
+          <ul>
+		<br>
+		<br>
+
+              <li><a href="/novo">NOVO SPOROČILO</a></li>
+              <li><a href="/prejeto">PREJETO</a></li>
+              <li><a href="/poslano">POSLANO </a></li>
+              <li><a href="/seznam_uporabnikov">SEZNAM UPORABNIKOV </a></li>
+              <li><a href="/javno">JAVNE OBJAVE</a></li>
+              <li><a href="{{logout_url}}">ODJAVA</a></li>
+          </ul>
+		</div>
+    </div>
+
+
+       <div class="sidebar">
+        <div class="sidebar_item">
+			<h3>Oglas</h3>
+            <div id="banner"><img src="/assets/img/oglasi/{{random}}.jpg"></div>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="sidebar_item">
+            <h3>Vreme</h3>
+              {% if weather %}
+            <ul>
+                <li><b id="city-name">{{weather.name}}</b></li>
+                <li><img src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png" id="weather-icon"> <span id="temperature">{{weather.main.temp}}</span> &#x2103;</li>
+                <li>Vlaga: <span id="humidity">{{weather.main.humidity}}</span> %</li>
+                <li>Pritisk: <span id="pressure">{{weather.main.pressure}}</span> mbar</li>
+            </ul>
+              <input id="weather-location-input" placeholder="Vnesi ime kraja"><br>
+              <button id="weather-search-btn">Išči</button>
+              {% else %}
+              <p>Podatki o vremenu trenutno niso na voljo</p>
+              {% endif %}
+          </div>
+        </div>
+        </div>
+      </div>
+
+
+  	{% block content %}
+  	{% endblock content %}
+
+
+    <div id="content_footer"></div>
+    <div id="footer">
+      <p> | <a>Pogoji</a> | <a>Zasebnost</a> | </p>
+      <p>G & Š| smart_ninja 2017
+    </div>
+<script>
+    {% block javascript %}
+    {% endblock javascript %}
+
+    // JS for weather widget
+
+    var weatherBtn = document.getElementById("weather-search-btn")
+
+    weatherBtn.onclick = function() {
+
+        var weatherLocation = document.getElementById("weather-location-input").value
+
+        // AJAX
+        var request = new XMLHttpRequest();
+        request.open('POST', '/weather', true);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send(encodeURI("location=" + weatherLocation));
+
+        request.onreadystatechange = function() {
+            var DONE = 4; // readyState 4 means the request is done.
+            var OK = 200; // status 200 is a successful return.
+            if (request.readyState === DONE) {
+                if (request.status === OK) {
+                    var response = JSON.parse(request.responseText)
+                    console.log(response); // 'This is the returned text.'
+
+                    var cityName = document.getElementById("city-name");
+                    var weatherImg = document.getElementById("weather-icon");
+                    var temperature = document.getElementById("temperature");
+                    var pressure = document.getElementById("pressure");
+                    var humidity = document.getElementById("humidity");
+
+                    cityName.innerHTML = response.name
+                    weatherImg.src = "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
+                    temperature.innerHTML = response.main.temp
+                    pressure.innerHTML = response.main.pressure
+                    humidity.innerHTML = response.main.humidity
+
+                    }
+            } else {
+                console.log('Error: ' + request.status); // An error occurred during the request.
+            }
+        }
+    }
+
+</script>
+</body>
+
+</html>
